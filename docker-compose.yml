@@ -1,0 +1,11 @@
+
+services:
+  mkdocs:
+    image: squidfunk/mkdocs-material:latest
+    entrypoint: ""    # override MkDocs entrypoint so we can run 'sh -c'
+    command: sh -c "pip install mkdocs-static-i18n && mkdocs serve -a 0.0.0.0:8000 -f /mkdocs.yml"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./docs:/docs
+      - ./mkdocs.yml:/mkdocs.yml

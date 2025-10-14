@@ -1,0 +1,64 @@
+site_name: CapyDb Docs
+site_description: Local docs portal
+site_url: http://localhost:8000
+
+theme:
+  name: material
+  language: pt-BR
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-night
+        name: "Switch to dark mode"
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: "Switch to light mode"
+
+nav:
+  - Início: README.md
+  - Guia Completo: CAPY-CLI-GUIDE.md
+  - Setup Inicial: SETUP-INICIAL.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+plugins:
+  - search
+  - i18n:
+      default_language: pt-BR
+      docs_structure: folder
+      languages:
+        - locale: pt-BR
+          name: "Português (Brasil)"
+          default: true
+          build: true
+        - locale: en
+          name: "English"
+          build: true
+      nav_translations:
+        en:
+          Início: Home
+          Guia Completo: Complete Guide
+          Setup Inicial: Initial Setup
