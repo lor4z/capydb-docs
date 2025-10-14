@@ -26,9 +26,10 @@ theme:
         name: "Switch to light mode"
 
 nav:
-  - Início: README.md
-  - Guia Completo: CAPY-CLI-GUIDE.md
-  - Setup Inicial: SETUP-INICIAL.md
+  - README.md
+  - CAPY-CLI-GUIDE.md
+  - SETUP-INICIAL.md
+  # - DEVELOPMENT.md
 
 markdown_extensions:
   - admonition
@@ -47,7 +48,6 @@ markdown_extensions:
 plugins:
   - search
   - i18n:
-      default_language: pt-BR
       docs_structure: folder
       languages:
         - locale: pt-BR
@@ -57,8 +57,3 @@ plugins:
         - locale: en
           name: "English"
           build: true
-      nav_translations:
-        en:
-          Início: Home
-          Guia Completo: Complete Guide
-          Setup Inicial: Initial Setup
