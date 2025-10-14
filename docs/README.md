@@ -1,143 +1,143 @@
-# CapyDb CLI
+# CapyDb CLI 
 
-A command-line tool for managing database migrations with **Liquibase** and **Entity Framework Core**.
+Uma ferramenta de linha de comando para gerenciamento de migrations de banco de dados com **Liquibase** e **Entity Framework Core**.
 
-## 🚀 What is CapyDb?
+## 🚀 O que é o CapyDb?
 
-CapyDb CLI addresses the challenge of managing database migrations consistently and efficiently, offering:
+O CapyDb CLI resolve o problema de gerenciar migrations de banco de dados de forma consistente e eficiente, oferecendo:
 
-- ✅ **Automatic configuration detection** - automatically searches for `liquibase.properties`
-- ✅ **Migration creation** in Liquibase YAML format
-- ✅ **Migration import** from Entity Framework Core
-- ✅ **Schema merge and consolidation** automation
-- ✅ **Safe execution** with SQL execution plans
-- ✅ **Multi-DBMS support** (SQL Server, PostgreSQL, MySQL, Oracle)
-- ✅ **Docker integration** and CI/CD pipelines
-- ✅ **Drift detection** - identifies undocumented changes
-- ✅ **Tag system** - create and remove tags for versioning
-- ✅ **Smart rollback** - revert by count or to a specific tag
-- ✅ **History squash** - consolidates old migrations
-- ✅ **Automatic author detection** via Git/CI/CD
-- ✅ **Comprehensive diagnostics** with `cap doctor`
-- ✅ **Changelog validation** before execution
-- ✅ **INSERTs converter** - converts SQL INSERTs to Liquibase format
+- ✅ **Detecção automática de configuração** - busca automaticamente por `liquibase.properties`
+- ✅ **Criação de migrations** no formato Liquibase YAML
+- ✅ **Importação de migrations** do Entity Framework Core
+- ✅ **Merge e consolidação** de schemas automatizada
+- ✅ **Execução segura** com planos de execução SQL
+- ✅ **Suporte multi-SGBD** (SQL Server, PostgreSQL, MySQL, Oracle)
+- ✅ **Integração com Docker** e pipelines CI/CD
+- ✅ **Detecção de drift** - identifica mudanças não documentadas
+- ✅ **Sistema de tags** - criação e remoção de tags para versionamento
+- ✅ **Rollback inteligente** - reverter por contagem ou até uma tag específica
+- ✅ **Squash de histórico** - consolida migrations antigas
+- ✅ **Detecção automática de autor** via Git/CI/CD
+- ✅ **Diagnóstico completo** com `cap doctor`
+- ✅ **Validação de changelog** antes da execução
+- ✅ **Conversor de INSERTs** - converte INSERTs SQL em formato Liquibase
 
-## 📦 Installation
+## 📦 Instalação
 
-### Prerequisites
-- .NET 8.0 SDK or higher
-- Java 8+ (for Liquibase)
+### Pré-requisitos
+- .NET 8.0 SDK ou superior
+- Java 8+ (para Liquibase)
 
-### Global Installation
+### Instalação Global
 ```bash
-# Install via NuGet
+# Instalar via NuGet
 dotnet tool install -g capydb.cli
 
-# Verify installation
+# Verificar instalação
 cap --version  # 1.0.7
 ```
 
-## 🏁 Getting Started
+## 🏁 Começando
 
-### 1. Set Up Project
+### 1. Configurar Projeto
 ```bash
-# Recommended structure
-my-project/
+# Estrutura recomendada
+meu-projeto/
 ├── db/
 │   └── changelog/
 │       ├── common/
 │       ├── db.changelog-master.yaml
-│       └── liquibase.properties  # ← CLI auto-detects this!
+│       └── liquibase.properties  # ← O CLI busca automaticamente aqui!
 ├── src/
-└── Infrastructure/  # Or any project structure
+└── Infrastructure/  # Ou qualquer estrutura de projeto
 ```
 
-### 2. Check Prerequisites
+### 2. Verificar Pré-requisitos
 ```bash
 cap doctor
 ```
 
-### 3. Create First Migration
+### 3. Criar Primeira Migration
 ```bash
-# Create a basic migration
-cap migrations add create-users
+# Criar migration básica
+cap migrations add criar-usuarios
 
-# With specific author
-cap migrations add create-products --author "Your Name"
+# Com autor específico
+cap migrations add criar-produtos --author "Seu Nome"
 ```
 
-### 4. Import from Entity Framework
+### 4. Importar do Entity Framework
 ```bash
 cap migrations import-ef \
-  --assembly ./MyApp.dll \
+  --assembly ./MeuApp.dll \
   --name CreateUsersTable \
   --provider sqlserver
 ```
 
-### 5. Run Migrations (Auto-Detection!)
+### 5. Executar Migrations (Detecção Automática!)
 ```bash
-# CLI automatically searches in ./db/changelog/liquibase.properties
-cap plan      # Generate execution plan
-cap apply     # Apply migrations
-cap status    # Check database status
+# O CLI busca automaticamente em ./db/changelog/liquibase.properties
+cap plan      # Gerar plano de execução
+cap apply     # Aplicar migrations
+cap status    # Ver status do banco
 
-# Create tag after deployment
+# Criar tag após deployment
 cap tag v1.0.0
 
-# Rollback if needed
+# Rollback se necessário
 cap rollback count 2
 cap rollback to-tag v1.0.0
 ```
 
-### 💡 Automatic Configuration Detection (Enhanced!)
+### 💡 Detecção Automática de Configuração (Aprimorada!)
 
-The CLI now features **robust recursive search** for `liquibase.properties`:
+O CLI agora possui **busca recursiva robusta** para `liquibase.properties`:
 
-**Search Priority:**
-1. `./db/changelog/liquibase.properties` (recommended)
-2. `./liquibase.properties` (root directory)
+**Prioridade de Busca:**
+1. `./db/changelog/liquibase.properties` (recomendado)
+2. `./liquibase.properties` (diretório raiz)
 3. `./config/liquibase.properties`
 4. `./database/liquibase.properties`
 5. `./src/*/db/changelog/liquibase.properties` (monorepos!)
 6. `./apps/*/db/changelog/liquibase.properties` (monorepos!)
-7. **Recursive search in all subdirectories** (excluding node_modules, .git)
+7. **Busca recursiva em todos os subdiretórios** (excluindo node_modules, .git)
 
-**Works perfectly on Windows, Linux, and macOS!**
+**Funciona perfeitamente no Windows, Linux e macOS!**
 
 ```bash
-# Before (still works):
+# Antes (ainda funciona):
 cap apply --defaults ./db/changelog/liquibase.properties
 
-# Now (even simpler):
-cap apply  # Auto-detects in monorepos, nested structures, anywhere!
+# Agora (ainda mais simples):
+cap apply  # Detecta automaticamente em monorepos, estruturas aninhadas, qualquer lugar!
 ```
 
-## 📋 Quick Examples
+## 📋 Exemplos Rápidos
 
-### Recommended Project Structure
+### Estrutura de Projeto Recomendada
 ```
-my-project/
+meu-projeto/
 ├── db/
 │   ├── changelog/
 │   │   ├── common/
-│   │   │   └── 20250924_120000__create-users.yaml
+│   │   │   └── 20250924_120000__criar-usuarios.yaml
 │   │   ├── db.changelog-master.yaml
-│   │   └── liquibase.properties  # ← Auto-detected!
+│   │   └── liquibase.properties  # ← Detectado automaticamente!
 │   └── drivers/
 └── src/
 ```
 
-### Auto-Generated Migration
+### Migration Gerada Automaticamente
 ```yaml
-# db/changelog/common/20250924_120000__create-users.yaml
+# db/changelog/common/20250924_120000__criar-usuarios.yaml
 databaseChangeLog:
   - changeSet:
-      id: 20250924_120000-create-users
-      author: Moisés Drumand  # ← Detected via Git!
+      id: 20250924_120000-criar-usuarios
+      author: Evellyn Fernandes  # ← Detectado via Git!
       context: common
       changes:
         - createTable:
-            tableName: users
+            tableName: usuarios
             columns:
               - column:
                   name: id
@@ -146,113 +146,113 @@ databaseChangeLog:
                     primaryKey: true
 ```
 
-### Simplified Full Workflow
+### Fluxo Completo Simplificado
 ```bash
-# 1. Create migration
-cap migrations add create-users
+# 1. Criar migration
+cap migrations add criar-usuarios
 
-# 2. Review what will be executed
+# 2. Revisar o que vai ser executado
 cap plan
 
-# 3. Apply to database
+# 3. Aplicar no banco
 cap apply
 
-# 4. Check status
+# 4. Verificar status
 cap status
 
-# 5. Create version tag
+# 5. Criar tag de versão
 cap tag v1.0.0
 
-# 6. Revert if needed
+# 6. Se precisar reverter
 cap rollback to-tag v1.0.0
 ```
 
-### Multiple Environments and DBMS
+### Múltiplos Ambientes e SGBDs
 ```bash
-# Default environment (auto-detected)
+# Ambiente padrão (detecta automaticamente)
 cap apply
 
-# PostgreSQL with custom file
+# PostgreSQL com arquivo customizado
 cap apply --defaults ./db/changelog/liquibase-postgres.properties
 
-# MySQL with Docker
+# MySQL com Docker
 cap apply --defaults ./db/changelog/liquibase-mysql.properties --docker
 
 # Oracle
 cap apply --defaults ./db/changelog/liquibase-oracle.properties
 ```
 
-### Converting SQL INSERTs
+### Conversão de INSERTs SQL
 ```bash
-# Convert SQL INSERTs file to Liquibase format
+# Converter arquivo SQL com INSERTs para formato Liquibase
 cap convert-inserts --input ./data.sql --output ./changelog.yaml
 
-# Specify table name
-cap convert-inserts --input ./data.sql --table users --output ./changelog.yaml
+# Especificar nome da tabela
+cap convert-inserts --input ./data.sql --table usuarios --output ./changelog.yaml
 ```
 
-## 🧪 Tests
+## 🧪 Testes
 
-The project includes automated integration tests using Jest and Prisma.
+O projeto inclui testes de integração automatizados usando Jest e Prisma.
 
 ```bash
-# Run integration tests
+# Executar testes de integração
 cd tests/integration
 npm install
 npm test
 
-# Tests with different DBMS
+# Testes com diferentes SGBDs
 npm test -- --testMatch="**/migration.test.ts"
 ```
 
-## 📚 Documentation
+## 📚 Documentação
 
-For complete documentation, visit: [Documentation](https://docusaurus.io/docs)
+Para documentação completa, visite: [Documentação](https://docusaurus.io/pt-BR/docs)
 
-## 🔧 Main Commands
+## 🔧 Comandos Principais
 
-| Command | Description |
-|---------|-------------|
-| `cap doctor` | Check prerequisites and connectivity |
-| `cap migrations add <name>` | Create new migration with auto-detected author |
-| `cap migrations import-ef` | Import migrations from EF Core |
-| `cap migrations mergeschemas` | Consolidate multiple migrations |
-| `cap plan` | Generate SQL execution plan |
-| `cap apply` | Apply migrations to database |
-| `cap status` | View database status and pending migrations |
-| `cap validate` | Validate changelog syntax |
-| `cap drift detect` | Detect undocumented changes |
-| `cap tag <name>` | Create tag for versioning |
-| `cap remove-tag <tag>` | Remove existing tag |
-| `cap rollback count <N>` | Revert N migrations |
-| `cap rollback to-tag <tag>` | Revert to a specific tag |
-| `cap squash --tag <tag>` | Consolidate history up to a tag |
-| `cap bye` | Farewell with ASCII art 🦫 |
+| Comando | Descrição |
+|---------|-----------|
+| `cap doctor` | Verificar pré-requisitos e conectividade |
+| `cap migrations add <nome>` | Criar nova migration com autor automático |
+| `cap migrations import-ef` | Importar migrations do EF Core |
+| `cap migrations mergeschemas` | Consolidar múltiplas migrations |
+| `cap plan` | Gerar plano SQL de execução |
+| `cap apply` | Aplicar migrations no banco |
+| `cap status` | Ver status e migrations pendentes |
+| `cap validate` | Validar sintaxe do changelog |
+| `cap drift detect` | Detectar mudanças não documentadas |
+| `cap tag <nome>` | Criar tag para versionamento |
+| `cap remove-tag <tag>` | Remover tag existente |
+| `cap rollback count <N>` | Reverter N migrations |
+| `cap rollback to-tag <tag>` | Reverter até uma tag específica |
+| `cap squash --tag <tag>` | Consolidar histórico até tag |
+| `cap bye` | Despedida com ASCII art 🦫 |
 
-## 💬 Contact
+## 💬 Contato
 
-- 📧 **Email**: evellynloraine@gmail.com
+- 📧 **E-mail**: lora@gmail.com
 - 💼 **LinkedIn**: [Evellyn Fernandes](https://www.linkedin.com/in/evellynloraine)
 - 🐱 **GitHub**: [lor4z](https://github.com/lor4z)
 
-## 📄 License
+## 📄 Licença
 
-This project is licensed under Apache 2.0.
+Este projeto está sob licença Apache 2.0.
 
-## 🔗 Useful Links
+## 🔗 Links Úteis
 
 - **NuGet Package**: https://www.nuget.org/packages/capydb.cli/
 - **GitHub Repository**: https://github.com/lor4z/capybara-db
-- **Current Version**: 1.0.7
+- **Versão Atual**: 1.0.9
 
-## 🆕 What's New in v1.0.7
+## 🆕 Novidades na v1.0.9
 
-- ✅ **Enhanced file search on Windows** - Fixed glob pattern issues
-- ✅ **Robust recursive search** - Finds liquibase.properties anywhere
-- ✅ **Monorepo support** - Works with complex project structures
-- ✅ **Improved assembly detection** - Better EF Core integration
-- ✅ **Cross-platform compatibility** - Tested on Windows, Linux, macOS
+- ✅ **Busca de arquivos aprimorada no Windows** - Corrigidos problemas com padrões glob
+- ✅ **Busca recursiva robusta** - Encontra liquibase.properties em qualquer lugar
+- ✅ **Suporte a monorepos** - Funciona com estruturas de projeto complexas
+- ✅ **Detecção de assemblies melhorada** - Melhor integração com EF Core
+- ✅ **Compatibilidade multiplataforma** - Testado no Windows, Linux, macOS
 
 ---
 
-**Developed with ❤️ to simplify database migration management.**
+**Desenvolvido com ❤️ para facilitar o gerenciamento de migrations de banco de dados.**
