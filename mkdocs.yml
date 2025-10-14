@@ -1,6 +1,8 @@
 site_name: CapyDb Docs
 site_description: Local docs portal
-site_url: http://localhost:8000
+site_url: https://lor4z.github.io/capydb-docs/
+repo_url: https://github.com/lor4z/capydb-docs
+repo_name: lor4z/capydb-docs
 
 theme:
   name: material
