@@ -1,4 +1,4 @@
-# 🚀 Setup Inicial do CapyDb
+# Setup Inicial do CapyDb
 
 > Guia passo-a-passo para configurar o CapyDb pela primeira vez
 
