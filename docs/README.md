@@ -22,6 +22,7 @@ O CapyDb CLI resolve o problema de gerenciar migrations de banco de dados de for
 - ✅ **Validação de changelog** antes da execução
 - ✅ **Conversor de INSERTs** - converte INSERTs SQL em formato Liquibase
 
+
 ## 📦 Instalação
 
 ### Pré-requisitos
