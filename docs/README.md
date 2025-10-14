@@ -1,114 +1,258 @@
+# CapyDb CLI
 
-# Docs Starter — MkDocs Material (com Docker)
+A command-line tool for managing database migrations with **Liquibase** and **Entity Framework Core**.
 
-Um pacote mínimo para você rodar suas documentações **localmente** mesmo que seu Git seja privado.
+## 🚀 What is CapyDb?
 
-## ✅ O que vem pronto
-- **MkDocs + Material** já configurado
-- **Docker Compose** para rodar sem instalar Python
-- Estrutura `docs/` com exemplos
-- Script para **copiar** seus `.md` de um repositório privado local
-- Pipeline exemplo do **Azure DevOps** para publicar (opcional)
+CapyDb CLI addresses the challenge of managing database migrations consistently and efficiently, offering:
 
----
+- ✅ **Automatic configuration detection** - automatically searches for `liquibase.properties`
+- ✅ **Migration creation** in Liquibase YAML format
+- ✅ **Migration import** from Entity Framework Core
+- ✅ **Schema merge and consolidation** automation
+- ✅ **Safe execution** with SQL execution plans
+- ✅ **Multi-DBMS support** (SQL Server, PostgreSQL, MySQL, Oracle)
+- ✅ **Docker integration** and CI/CD pipelines
+- ✅ **Drift detection** - identifies undocumented changes
+- ✅ **Tag system** - create and remove tags for versioning
+- ✅ **Smart rollback** - revert by count or to a specific tag
+- ✅ **History squash** - consolidates old migrations
+- ✅ **Automatic author detection** via Git/CI/CD
+- ✅ **Comprehensive diagnostics** with `cap doctor`
+- ✅ **Changelog validation** before execution
+- ✅ **INSERTs converter** - converts SQL INSERTs to Liquibase format
 
-## 1) Rodar localmente com Docker (recomendado)
-Pré‑requisito: [Docker Desktop]
+## 📦 Installation
+
+### Prerequisites
+- .NET 8.0 SDK or higher
+- Java 8+ (for Liquibase)
+
+### Global Installation
+```bash
+# Install via NuGet
+dotnet tool install -g capydb.cli
+
+# Verify installation
+cap --version  # 1.0.7
+```
+
+## 🏁 Getting Started
+
+### 1. Set Up Project
+```bash
+# Recommended structure
+my-project/
+├── db/
+│   └── changelog/
+│       ├── common/
+│       ├── db.changelog-master.yaml
+│       └── liquibase.properties  # ← CLI auto-detects this!
+├── src/
+└── Infrastructure/  # Or any project structure
+```
+
+### 2. Check Prerequisites
+```bash
+cap doctor
+```
+
+### 3. Create First Migration
+```bash
+# Create a basic migration
+cap migrations add create-users
+
+# With specific author
+cap migrations add create-products --author "Your Name"
+```
+
+### 4. Import from Entity Framework
+```bash
+cap migrations import-ef \
+  --assembly ./MyApp.dll \
+  --name CreateUsersTable \
+  --provider sqlserver
+```
+
+### 5. Run Migrations (Auto-Detection!)
+```bash
+# CLI automatically searches in ./db/changelog/liquibase.properties
+cap plan      # Generate execution plan
+cap apply     # Apply migrations
+cap status    # Check database status
+
+# Create tag after deployment
+cap tag v1.0.0
+
+# Rollback if needed
+cap rollback count 2
+cap rollback to-tag v1.0.0
+```
+
+### 💡 Automatic Configuration Detection (Enhanced!)
+
+The CLI now features **robust recursive search** for `liquibase.properties`:
+
+**Search Priority:**
+1. `./db/changelog/liquibase.properties` (recommended)
+2. `./liquibase.properties` (root directory)
+3. `./config/liquibase.properties`
+4. `./database/liquibase.properties`
+5. `./src/*/db/changelog/liquibase.properties` (monorepos!)
+6. `./apps/*/db/changelog/liquibase.properties` (monorepos!)
+7. **Recursive search in all subdirectories** (excluding node_modules, .git)
+
+**Works perfectly on Windows, Linux, and macOS!**
 
 ```bash
-# na pasta do projeto (onde está este README.md)
-docker compose up
+# Before (still works):
+cap apply --defaults ./db/changelog/liquibase.properties
+
+# Now (even simpler):
+cap apply  # Auto-detects in monorepos, nested structures, anywhere!
 ```
 
-Acesse: http://localhost:8000 (auto reload).  
-O MkDocs vai ler `./docs` e `./mkdocs.yml`.
+## 📋 Quick Examples
 
-> Dica: se seus Markdown já estão em outro repo/pasta, use o script abaixo para copiar para `./docs` ou monte a pasta com um volume no compose.
-
----
-
-## 2) Copiar seus .md de um repositório privado local
-Se você já tem os `.md` no seu monorepo (ex.: `C:\dev\sisprevmais-monorepo\docs`), rode:
-
-```powershell
-# PowerShell
-.\scripts\copy-docs-from-repo.ps1 -Source "C:\dev\sisprevmais-monorepo\docs"
+### Recommended Project Structure
+```
+my-project/
+├── db/
+│   ├── changelog/
+│   │   ├── common/
+│   │   │   └── 20250924_120000__create-users.yaml
+│   │   ├── db.changelog-master.yaml
+│   │   └── liquibase.properties  # ← Auto-detected!
+│   └── drivers/
+└── src/
 ```
 
-Isso **sincroniza** (copia por cima) os arquivos para `./docs`.
-
-> O script NÃO faz `git clone` nem pede token; ele apenas copia de uma pasta local já clonada/privada.
-
----
-
-## 3) Rodar sem Docker (via Python)
-Pré‑requisito: Python 3.11+
-
-```bash
-pip install -r requirements.txt
-mkdocs serve -a 0.0.0.0:8000
-```
-
----
-
-## 4) Publicar (opcional) — Azure DevOps Pipeline
-Exemplo mínimo para buildar o site estático como artefato:
-
+### Auto-Generated Migration
 ```yaml
-# .azure-pipelines/mkdocs-ci.yml
-trigger: none
-
-pool:
-  vmImage: 'ubuntu-latest'
-
-steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.11'
-- script: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-    mkdocs build --strict
-  displayName: 'Build MkDocs'
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: 'site'
-    ArtifactName: 'mkdocs-site'
-    publishLocation: 'Container'
+# db/changelog/common/20250924_120000__create-users.yaml
+databaseChangeLog:
+  - changeSet:
+      id: 20250924_120000-create-users
+      author: Moisés Drumand  # ← Detected via Git!
+      context: common
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
 ```
 
-Você pode depois publicar o conteúdo do artefato `site/` em qualquer host estático (Azure Static Web Apps, Storage + CDN, Nginx interno, etc.).
+### Simplified Full Workflow
+```bash
+# 1. Create migration
+cap migrations add create-users
+
+# 2. Review what will be executed
+cap plan
+
+# 3. Apply to database
+cap apply
+
+# 4. Check status
+cap status
+
+# 5. Create version tag
+cap tag v1.0.0
+
+# 6. Revert if needed
+cap rollback to-tag v1.0.0
+```
+
+### Multiple Environments and DBMS
+```bash
+# Default environment (auto-detected)
+cap apply
+
+# PostgreSQL with custom file
+cap apply --defaults ./db/changelog/liquibase-postgres.properties
+
+# MySQL with Docker
+cap apply --defaults ./db/changelog/liquibase-mysql.properties --docker
+
+# Oracle
+cap apply --defaults ./db/changelog/liquibase-oracle.properties
+```
+
+### Converting SQL INSERTs
+```bash
+# Convert SQL INSERTs file to Liquibase format
+cap convert-inserts --input ./data.sql --output ./changelog.yaml
+
+# Specify table name
+cap convert-inserts --input ./data.sql --table users --output ./changelog.yaml
+```
+
+## 🧪 Tests
+
+The project includes automated integration tests using Jest and Prisma.
+
+```bash
+# Run integration tests
+cd tests/integration
+npm install
+npm test
+
+# Tests with different DBMS
+npm test -- --testMatch="**/migration.test.ts"
+```
+
+## 📚 Documentation
+
+For complete documentation, visit: [Documentation](https://docusaurus.io/docs)
+
+## 🔧 Main Commands
+
+| Command | Description |
+|---------|-------------|
+| `cap doctor` | Check prerequisites and connectivity |
+| `cap migrations add <name>` | Create new migration with auto-detected author |
+| `cap migrations import-ef` | Import migrations from EF Core |
+| `cap migrations mergeschemas` | Consolidate multiple migrations |
+| `cap plan` | Generate SQL execution plan |
+| `cap apply` | Apply migrations to database |
+| `cap status` | View database status and pending migrations |
+| `cap validate` | Validate changelog syntax |
+| `cap drift detect` | Detect undocumented changes |
+| `cap tag <name>` | Create tag for versioning |
+| `cap remove-tag <tag>` | Remove existing tag |
+| `cap rollback count <N>` | Revert N migrations |
+| `cap rollback to-tag <tag>` | Revert to a specific tag |
+| `cap squash --tag <tag>` | Consolidate history up to a tag |
+| `cap bye` | Farewell with ASCII art 🦫 |
+
+## 💬 Contact
+
+- 📧 **Email**: evellynloraine@gmail.com
+- 💼 **LinkedIn**: [Evellyn Fernandes](https://www.linkedin.com/in/evellynloraine)
+- 🐱 **GitHub**: [lor4z](https://github.com/lor4z)
+
+## 📄 License
+
+This project is licensed under Apache 2.0.
+
+## 🔗 Useful Links
+
+- **NuGet Package**: https://www.nuget.org/packages/capydb.cli/
+- **GitHub Repository**: https://github.com/lor4z/capybara-db
+- **Current Version**: 1.0.7
+
+## 🆕 What's New in v1.0.7
+
+- ✅ **Enhanced file search on Windows** - Fixed glob pattern issues
+- ✅ **Robust recursive search** - Finds liquibase.properties anywhere
+- ✅ **Monorepo support** - Works with complex project structures
+- ✅ **Improved assembly detection** - Better EF Core integration
+- ✅ **Cross-platform compatibility** - Tested on Windows, Linux, macOS
 
 ---
 
-## 5) Personalizar a navegação
-- Edite `mkdocs.yml` (seções `nav` e `theme`).
-- Acrescente seus `.md` em `docs/` (ou subpastas).
-- Se quiser extrair docs direto do monorepo, você pode:
-  - **(A)** Copiar com o script acima, ou
-  - **(B)** Montar a pasta do monorepo no Docker Compose (ver comentário dentro do `docker-compose.yml`).
-
----
-
-## 6) Estrutura
-```
-docs-starter-mkdocs-material/
-├─ docs/
-│  ├─ index.md
-│  └─ guia.md
-├─ scripts/
-│  └─ copy-docs-from-repo.ps1
-├─ docker-compose.yml
-├─ mkdocs.yml
-├─ requirements.txt
-└─ README.md
-```
-
----
-
-## 7) Dicas
-- Se seus `.md` estão espalhados pelo monorepo, considere centralizar em uma pasta `docs/`.
-- Para docs multilíngue, use subpastas `pt-br/`, `en/`, etc.
-- Para coleções grandes, você pode explorar plugins como `search` (já incluído) e hierarquia via `nav`.
-
-Boa documentação! 🦫
+**Developed with ❤️ to simplify database migration management.**

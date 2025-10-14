@@ -29,8 +29,6 @@ nav:
   - README.md
   - CAPY-CLI-GUIDE.md
   - SETUP-INICIAL.md
-  # - DEVELOPMENT.md
-
 markdown_extensions:
   - admonition
   - attr_list

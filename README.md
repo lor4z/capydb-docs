@@ -1,1 +1,0 @@
-# capydb-docs
