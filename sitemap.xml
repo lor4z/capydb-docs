@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://lor4z.github.io/capydb-docs/</loc>
+        <lastmod>2025-10-28</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="pt-BR" href="https://lor4z.github.io/capydb-docs/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://lor4z.github.io/capydb-docs/en/"/>
+    </url>
+    <url>
+        <loc>https://lor4z.github.io/capydb-docs/CAPY-CLI-GUIDE/</loc>
+        <lastmod>2025-10-28</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="pt-BR" href="https://lor4z.github.io/capydb-docs/CAPY-CLI-GUIDE/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://lor4z.github.io/capydb-docs/en/CAPY-CLI-GUIDE/"/>
+    </url>
+    <url>
+        <loc>https://lor4z.github.io/capydb-docs/SETUP-INICIAL/</loc>
+        <lastmod>2025-10-28</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="pt-BR" href="https://lor4z.github.io/capydb-docs/SETUP-INICIAL/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://lor4z.github.io/capydb-docs/en/SETUP-INICIAL/"/>
+    </url>
+    <url>
+        <loc>https://lor4z.github.io/capydb-docs/en/</loc>
+        <lastmod>2025-10-28</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://lor4z.github.io/capydb-docs/en/"/>
+        <xhtml:link rel="alternate" hreflang="pt-BR" href="https://lor4z.github.io/capydb-docs/"/>
+    </url>
+    <url>
+        <loc>https://lor4z.github.io/capydb-docs/en/CAPY-CLI-GUIDE/</loc>
+        <lastmod>2025-10-28</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://lor4z.github.io/capydb-docs/en/CAPY-CLI-GUIDE/"/>
+        <xhtml:link rel="alternate" hreflang="pt-BR" href="https://lor4z.github.io/capydb-docs/CAPY-CLI-GUIDE/"/>
+    </url>
+    <url>
+        <loc>https://lor4z.github.io/capydb-docs/en/SETUP-INICIAL/</loc>
+        <lastmod>2025-10-28</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://lor4z.github.io/capydb-docs/en/SETUP-INICIAL/"/>
+        <xhtml:link rel="alternate" hreflang="pt-BR" href="https://lor4z.github.io/capydb-docs/SETUP-INICIAL/"/>
+    </url>
+</urlset>

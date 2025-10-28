@@ -1,0 +1,1392 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Local docs portal">
+      
+      
+      
+        <link rel="canonical" href="https://lor4z.github.io/capydb-docs/en/">
+      
+      
+      
+        <link rel="next" href="CAPY-CLI-GUIDE/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
+    
+    
+      
+        <title>CapyDb CLI - CapyDb Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#capydb-cli" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="./" title="CapyDb Docs" class="md-header__button md-logo" aria-label="CapyDb Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CapyDb Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CapyDb CLI
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="/capydb-docs/" hreflang="pt-BR" class="md-select__link">
+              Português (Brasil)
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="/capydb-docs/en/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/lor4z/capydb-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lor4z/capydb-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="./" title="CapyDb Docs" class="md-nav__button md-logo" aria-label="CapyDb Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    CapyDb Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/lor4z/capydb-docs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    lor4z/capydb-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    CapyDb CLI
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    CapyDb CLI
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-capydb" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 What is CapyDb?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      📦 Installation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📦 Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#global-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Global Installation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏁 Getting Started
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏁 Getting Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-set-up-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Set Up Project
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-check-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Check Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-create-first-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Create First Migration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-import-from-entity-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Import from Entity Framework
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-run-migrations-auto-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Run Migrations (Auto-Detection!)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automatic-configuration-detection-enhanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 Automatic Configuration Detection (Enhanced!)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Quick Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Quick Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recommended-project-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recommended Project Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auto-generated-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Auto-Generated Migration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simplified-full-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simplified Full Workflow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-environments-and-dbms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Environments and DBMS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#converting-sql-inserts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Converting SQL INSERTs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-seeding-from-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Seeding from CSV
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Tests
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#main-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Main Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contact" class="md-nav__link">
+    <span class="md-ellipsis">
+      💬 Contact
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      📄 License
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#useful-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Useful Links
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-new-in-v123" class="md-nav__link">
+    <span class="md-ellipsis">
+      🆕 What's New in v1.2.3
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🆕 What&#39;s New in v1.2.3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-seeding-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Seeding Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Package Improvements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#previous-features-v107" class="md-nav__link">
+    <span class="md-ellipsis">
+      Previous Features (v1.0.7)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="CAPY-CLI-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CapyDb CLI — Complete Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SETUP-INICIAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    🚀 CapyDb — Initial Setup
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-capydb" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 What is CapyDb?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      📦 Installation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📦 Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#global-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Global Installation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏁 Getting Started
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏁 Getting Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-set-up-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Set Up Project
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-check-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Check Prerequisites
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-create-first-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Create First Migration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-import-from-entity-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Import from Entity Framework
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-run-migrations-auto-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Run Migrations (Auto-Detection!)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automatic-configuration-detection-enhanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 Automatic Configuration Detection (Enhanced!)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Quick Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 Quick Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recommended-project-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recommended Project Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auto-generated-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Auto-Generated Migration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simplified-full-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simplified Full Workflow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-environments-and-dbms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Environments and DBMS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#converting-sql-inserts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Converting SQL INSERTs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-seeding-from-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Seeding from CSV
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Tests
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#main-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔧 Main Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contact" class="md-nav__link">
+    <span class="md-ellipsis">
+      💬 Contact
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      📄 License
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#useful-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔗 Useful Links
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-new-in-v123" class="md-nav__link">
+    <span class="md-ellipsis">
+      🆕 What's New in v1.2.3
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🆕 What&#39;s New in v1.2.3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-seeding-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Seeding Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#package-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Package Improvements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#previous-features-v107" class="md-nav__link">
+    <span class="md-ellipsis">
+      Previous Features (v1.0.7)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="capydb-cli">CapyDb CLI<a class="headerlink" href="#capydb-cli" title="Permanent link">&para;</a></h1>
+<p>A command-line tool for managing database migrations with <strong>Liquibase</strong> and <strong>Entity Framework Core</strong>.</p>
+<h2 id="what-is-capydb">🚀 What is CapyDb?<a class="headerlink" href="#what-is-capydb" title="Permanent link">&para;</a></h2>
+<p>CapyDb CLI addresses the challenge of managing database migrations consistently and efficiently, offering:</p>
+<ul>
+<li>✅ <strong>Automatic configuration detection</strong> - automatically searches for <code>liquibase.properties</code></li>
+<li>✅ <strong>Migration creation</strong> in Liquibase YAML format</li>
+<li>✅ <strong>Migration import</strong> from Entity Framework Core</li>
+<li>✅ <strong>Schema merge and consolidation</strong> automation</li>
+<li>✅ <strong>Safe execution</strong> with SQL execution plans</li>
+<li>✅ <strong>Multi-DBMS support</strong> (SQL Server, PostgreSQL, MySQL, Oracle)</li>
+<li>✅ <strong>Docker integration</strong> and CI/CD pipelines</li>
+<li>✅ <strong>Drift detection</strong> - identifies undocumented changes</li>
+<li>✅ <strong>Tag system</strong> - create and remove tags for versioning</li>
+<li>✅ <strong>Smart rollback</strong> - revert by count or to a specific tag</li>
+<li>✅ <strong>History squash</strong> - consolidates old migrations</li>
+<li>✅ <strong>Automatic author detection</strong> via Git/CI/CD</li>
+<li>✅ <strong>Comprehensive diagnostics</strong> with <code>cap doctor</code></li>
+<li>✅ <strong>Changelog validation</strong> before execution</li>
+<li>✅ <strong>INSERTs converter</strong> - converts SQL INSERTs to Liquibase format</li>
+<li>✅ <strong>Data seeding from CSV</strong> - automatically generates load data changesets</li>
+<li>✅ <strong>Intelligent type inference</strong> - detects column types from CSV headers</li>
+<li>✅ <strong>Data management</strong> - update, rollback, and reset seed data independently</li>
+</ul>
+<h2 id="installation">📦 Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
+<ul>
+<li>.NET 8.0 SDK or higher</li>
+<li>Java 8+ (for Liquibase)</li>
+</ul>
+<h3 id="global-installation">Global Installation<a class="headerlink" href="#global-installation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install via NuGet</span>
+dotnet<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </span>capydb.cli
+
+<span class="c1"># Verify installation</span>
+cap<span class="w"> </span>--version<span class="w">  </span><span class="c1"># 1.2.3</span>
+</code></pre></div>
+<h2 id="getting-started">🏁 Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<h3 id="1-set-up-project">1. Set Up Project<a class="headerlink" href="#1-set-up-project" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Recommended structure</span>
+my-project/
+├──<span class="w"> </span>db/
+│<span class="w">   </span>└──<span class="w"> </span>changelog/
+│<span class="w">       </span>├──<span class="w"> </span>common/
+│<span class="w">       </span>├──<span class="w"> </span>db.changelog-master.yaml
+│<span class="w">       </span>└──<span class="w"> </span>liquibase.properties<span class="w">  </span><span class="c1"># ← CLI auto-detects this!</span>
+├──<span class="w"> </span>src/
+└──<span class="w"> </span>Infrastructure/<span class="w">  </span><span class="c1"># Or any project structure</span>
+</code></pre></div>
+<h3 id="2-check-prerequisites">2. Check Prerequisites<a class="headerlink" href="#2-check-prerequisites" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>cap<span class="w"> </span>doctor
+</code></pre></div>
+<h3 id="3-create-first-migration">3. Create First Migration<a class="headerlink" href="#3-create-first-migration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create a basic migration</span>
+cap<span class="w"> </span>migrations<span class="w"> </span>add<span class="w"> </span>create-users
+
+<span class="c1"># With specific author</span>
+cap<span class="w"> </span>migrations<span class="w"> </span>add<span class="w"> </span>create-products<span class="w"> </span>--author<span class="w"> </span><span class="s2">&quot;Your Name&quot;</span>
+</code></pre></div>
+<h3 id="4-import-from-entity-framework">4. Import from Entity Framework<a class="headerlink" href="#4-import-from-entity-framework" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>cap<span class="w"> </span>migrations<span class="w"> </span>import-ef<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--assembly<span class="w"> </span>./MyApp.dll<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>CreateUsersTable<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="w"> </span>sqlserver
+</code></pre></div>
+<h3 id="5-run-migrations-auto-detection">5. Run Migrations (Auto-Detection!)<a class="headerlink" href="#5-run-migrations-auto-detection" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># CLI automatically searches in ./db/changelog/liquibase.properties</span>
+cap<span class="w"> </span>plan<span class="w">      </span><span class="c1"># Generate execution plan</span>
+cap<span class="w"> </span>apply<span class="w">     </span><span class="c1"># Apply migrations</span>
+cap<span class="w"> </span>status<span class="w">    </span><span class="c1"># Check database status</span>
+
+<span class="c1"># Create tag after deployment</span>
+cap<span class="w"> </span>tag<span class="w"> </span>v1.0.0
+
+<span class="c1"># Rollback if needed</span>
+cap<span class="w"> </span>rollback<span class="w"> </span>count<span class="w"> </span><span class="m">2</span>
+cap<span class="w"> </span>rollback<span class="w"> </span>to-tag<span class="w"> </span>v1.0.0
+</code></pre></div>
+<h3 id="automatic-configuration-detection-enhanced">💡 Automatic Configuration Detection (Enhanced!)<a class="headerlink" href="#automatic-configuration-detection-enhanced" title="Permanent link">&para;</a></h3>
+<p>The CLI now features <strong>robust recursive search</strong> for <code>liquibase.properties</code>:</p>
+<p><strong>Search Priority:</strong>
+1. <code>./db/changelog/liquibase.properties</code> (recommended)
+2. <code>./liquibase.properties</code> (root directory)
+3. <code>./config/liquibase.properties</code>
+4. <code>./database/liquibase.properties</code>
+5. <code>./src/*/db/changelog/liquibase.properties</code> (monorepos!)
+6. <code>./apps/*/db/changelog/liquibase.properties</code> (monorepos!)
+7. <strong>Recursive search in all subdirectories</strong> (excluding node_modules, .git)</p>
+<p><strong>Works perfectly on Windows, Linux, and macOS!</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Before (still works):</span>
+cap<span class="w"> </span>apply<span class="w"> </span>--defaults<span class="w"> </span>./db/changelog/liquibase.properties
+
+<span class="c1"># Now (even simpler):</span>
+cap<span class="w"> </span>apply<span class="w">  </span><span class="c1"># Auto-detects in monorepos, nested structures, anywhere!</span>
+</code></pre></div>
+<h2 id="quick-examples">📋 Quick Examples<a class="headerlink" href="#quick-examples" title="Permanent link">&para;</a></h2>
+<h3 id="recommended-project-structure">Recommended Project Structure<a class="headerlink" href="#recommended-project-structure" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>my-project/
+├── db/
+│   ├── changelog/
+│   │   ├── common/
+│   │   │   └── 20250924_120000__create-users.yaml
+│   │   ├── db.changelog-master.yaml
+│   │   └── liquibase.properties  # ← Auto-detected!
+│   └── drivers/
+└── src/
+</code></pre></div>
+<h3 id="auto-generated-migration">Auto-Generated Migration<a class="headerlink" href="#auto-generated-migration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># db/changelog/common/20250924_120000__create-users.yaml</span>
+<span class="nt">databaseChangeLog</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">changeSet</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20250924_120000-create-users</span>
+<span class="w">      </span><span class="nt">author</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Moisés Drumand</span><span class="w">  </span><span class="c1"># ← Detected via Git!</span>
+<span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">common</span>
+<span class="w">      </span><span class="nt">changes</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">createTable</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">tableName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">users</span>
+<span class="w">            </span><span class="nt">columns</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">column</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">id</span>
+<span class="w">                  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
+<span class="w">                  </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">                    </span><span class="nt">primaryKey</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<h3 id="simplified-full-workflow">Simplified Full Workflow<a class="headerlink" href="#simplified-full-workflow" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Create migration</span>
+cap<span class="w"> </span>migrations<span class="w"> </span>add<span class="w"> </span>create-users
+
+<span class="c1"># 2. Review what will be executed</span>
+cap<span class="w"> </span>plan
+
+<span class="c1"># 3. Apply to database</span>
+cap<span class="w"> </span>apply
+
+<span class="c1"># 4. Check status</span>
+cap<span class="w"> </span>status
+
+<span class="c1"># 5. Create version tag</span>
+cap<span class="w"> </span>tag<span class="w"> </span>v1.0.0
+
+<span class="c1"># 6. Revert if needed</span>
+cap<span class="w"> </span>rollback<span class="w"> </span>to-tag<span class="w"> </span>v1.0.0
+</code></pre></div>
+<h3 id="multiple-environments-and-dbms">Multiple Environments and DBMS<a class="headerlink" href="#multiple-environments-and-dbms" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Default environment (auto-detected)</span>
+cap<span class="w"> </span>apply
+
+<span class="c1"># PostgreSQL with custom file</span>
+cap<span class="w"> </span>apply<span class="w"> </span>--defaults<span class="w"> </span>./db/changelog/liquibase-postgres.properties
+
+<span class="c1"># MySQL with Docker</span>
+cap<span class="w"> </span>apply<span class="w"> </span>--defaults<span class="w"> </span>./db/changelog/liquibase-mysql.properties<span class="w"> </span>--docker
+
+<span class="c1"># Oracle</span>
+cap<span class="w"> </span>apply<span class="w"> </span>--defaults<span class="w"> </span>./db/changelog/liquibase-oracle.properties
+</code></pre></div>
+<h3 id="converting-sql-inserts">Converting SQL INSERTs<a class="headerlink" href="#converting-sql-inserts" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Convert SQL INSERTs file to Liquibase format</span>
+cap<span class="w"> </span>convert-inserts<span class="w"> </span>--input<span class="w"> </span>./data.sql<span class="w"> </span>--output<span class="w"> </span>./changelog.yaml
+
+<span class="c1"># Specify table name</span>
+cap<span class="w"> </span>convert-inserts<span class="w"> </span>--input<span class="w"> </span>./data.sql<span class="w"> </span>--table<span class="w"> </span>users<span class="w"> </span>--output<span class="w"> </span>./changelog.yaml
+</code></pre></div>
+<h3 id="data-seeding-from-csv">Data Seeding from CSV<a class="headerlink" href="#data-seeding-from-csv" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Generate data-seed changelog from CSV</span>
+cap<span class="w"> </span>carga<span class="w"> </span>from-csv<span class="w"> </span>--input<span class="w"> </span>db/carga/Users.csv<span class="w"> </span>--table<span class="w"> </span>Users
+
+<span class="c1"># With author and auto-add to master changelog</span>
+cap<span class="w"> </span>carga<span class="w"> </span>from-csv<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input<span class="w"> </span>db/carga/Countries.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--table<span class="w"> </span>TabelaAuxiliarCountries<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--author<span class="w"> </span><span class="s2">&quot;Your Name&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--add-to-master
+
+<span class="c1"># Custom output location</span>
+cap<span class="w"> </span>carga<span class="w"> </span>from-csv<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input<span class="w"> </span>db/carga/Cities.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--table<span class="w"> </span>Cities<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output<span class="w"> </span>db/changelog/custom/cities.yaml
+
+<span class="c1"># Automatic dependency resolution and ordering!</span>
+<span class="c1"># When using --add-to-master, CapyDb automatically:</span>
+<span class="c1"># ✅ Detects foreign keys from CSV column names (ending with &quot;Id&quot;)</span>
+<span class="c1"># ✅ Resolves table dependencies</span>
+<span class="c1"># ✅ Orders changesets topologically (dependencies first)</span>
+<span class="c1"># ✅ Prevents FK constraint violations during load</span>
+
+<span class="c1"># Apply data seeds</span>
+cap<span class="w"> </span>carga<span class="w"> </span>update<span class="w"> </span>--defaults<span class="w"> </span>db/changelog/liquibase.properties
+
+<span class="c1"># Rollback data seeds</span>
+cap<span class="w"> </span>carga<span class="w"> </span>rollback<span class="w"> </span>--defaults<span class="w"> </span>db/changelog/liquibase.properties
+
+<span class="c1"># Check data seed status</span>
+cap<span class="w"> </span>carga<span class="w"> </span>status<span class="w"> </span>--defaults<span class="w"> </span>db/changelog/liquibase.properties
+</code></pre></div>
+<h2 id="tests">🧪 Tests<a class="headerlink" href="#tests" title="Permanent link">&para;</a></h2>
+<p>The project includes automated integration tests using Jest and Prisma.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run integration tests</span>
+<span class="nb">cd</span><span class="w"> </span>tests/integration
+npm<span class="w"> </span>install
+npm<span class="w"> </span><span class="nb">test</span>
+
+<span class="c1"># Tests with different DBMS</span>
+npm<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--<span class="w"> </span>--testMatch<span class="o">=</span><span class="s2">&quot;**/migration.test.ts&quot;</span>
+</code></pre></div>
+<h2 id="documentation">📚 Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
+<p>For complete documentation, visit: <a href="https://lor4z.github.io/capydb-docs">Documentation</a></p>
+<h2 id="main-commands">🔧 Main Commands<a class="headerlink" href="#main-commands" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cap doctor</code></td>
+<td>Check prerequisites and connectivity</td>
+</tr>
+<tr>
+<td><code>cap migrations add &lt;name&gt;</code></td>
+<td>Create new migration with auto-detected author</td>
+</tr>
+<tr>
+<td><code>cap migrations import-ef</code></td>
+<td>Import migrations from EF Core</td>
+</tr>
+<tr>
+<td><code>cap migrations mergeschemas</code></td>
+<td>Consolidate multiple migrations</td>
+</tr>
+<tr>
+<td><code>cap plan</code></td>
+<td>Generate SQL execution plan</td>
+</tr>
+<tr>
+<td><code>cap apply</code></td>
+<td>Apply migrations to database</td>
+</tr>
+<tr>
+<td><code>cap status</code></td>
+<td>View database status and pending migrations</td>
+</tr>
+<tr>
+<td><code>cap validate</code></td>
+<td>Validate changelog syntax</td>
+</tr>
+<tr>
+<td><code>cap drift detect</code></td>
+<td>Detect undocumented changes</td>
+</tr>
+<tr>
+<td><code>cap tag &lt;name&gt;</code></td>
+<td>Create tag for versioning</td>
+</tr>
+<tr>
+<td><code>cap remove-tag &lt;tag&gt;</code></td>
+<td>Remove existing tag</td>
+</tr>
+<tr>
+<td><code>cap rollback count &lt;N&gt;</code></td>
+<td>Revert N migrations</td>
+</tr>
+<tr>
+<td><code>cap rollback to-tag &lt;tag&gt;</code></td>
+<td>Revert to a specific tag</td>
+</tr>
+<tr>
+<td><code>cap squash --tag &lt;tag&gt;</code></td>
+<td>Consolidate history up to a tag</td>
+</tr>
+<tr>
+<td><code>cap carga from-csv</code></td>
+<td>Generate data-seed changelog from CSV</td>
+</tr>
+<tr>
+<td><code>cap carga update</code></td>
+<td>Apply data seeds (label: data-seed)</td>
+</tr>
+<tr>
+<td><code>cap carga drop-all</code></td>
+<td>Remove all data and reapply</td>
+</tr>
+<tr>
+<td><code>cap carga reset</code></td>
+<td>Drop entire database and reapply all</td>
+</tr>
+<tr>
+<td><code>cap carga rollback</code></td>
+<td>Rollback last data changeset</td>
+</tr>
+<tr>
+<td><code>cap carga status</code></td>
+<td>Check data seed status</td>
+</tr>
+<tr>
+<td><code>cap bye</code></td>
+<td>Farewell with ASCII art 🦫</td>
+</tr>
+</tbody>
+</table>
+<h2 id="contact">💬 Contact<a class="headerlink" href="#contact" title="Permanent link">&para;</a></h2>
+<ul>
+<li>📧 <strong>Email</strong>: evellynloraine@gmail.com</li>
+<li>💼 <strong>LinkedIn</strong>: <a href="https://www.linkedin.com/in/evellynloraine">Evellyn Fernandes</a></li>
+<li>🐱 <strong>GitHub</strong>: <a href="https://github.com/lor4z">lor4z</a></li>
+<li>📚 <strong>Documentation:</strong> <a href="https://lor4z.github.io/capydb-docs">CapyDb Docs</a></li>
+</ul>
+<h2 id="license">📄 License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
+<p>This project is licensed under Apache 2.0.</p>
+<h2 id="useful-links">🔗 Useful Links<a class="headerlink" href="#useful-links" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>NuGet Package</strong>: https://www.nuget.org/packages/capydb.cli/</li>
+<li><strong>GitHub Repository</strong>: https://github.com/lor4z/capybara-db</li>
+<li><strong>Current Version</strong>: 1.2.3</li>
+</ul>
+<h2 id="whats-new-in-v123">🆕 What's New in v1.2.3<a class="headerlink" href="#whats-new-in-v123" title="Permanent link">&para;</a></h2>
+<h3 id="data-seeding-features">Data Seeding Features<a class="headerlink" href="#data-seeding-features" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <strong>CSV to Changelog Generator</strong> - <code>cap carga from-csv</code> command</li>
+<li>✅ <strong>Intelligent Type Inference</strong> - Automatically detects UUID, BOOLEAN, TIMESTAMP, NUMERIC, STRING</li>
+<li>✅ <strong>Automatic Dependency Resolution</strong> - Detects FKs from CSV headers and orders tables automatically</li>
+<li>✅ <strong>Topological Sorting</strong> - Smart ordering prevents FK constraint violations during data load</li>
+<li>✅ <strong>Circular Dependency Detection</strong> - Warns about circular references between tables</li>
+<li>✅ <strong>Data Management Commands</strong> - update, drop-all, reset, rollback, status for seed data</li>
+<li>✅ <strong>Auto-add to Master</strong> - Option to automatically include in db.changelog-master.yaml</li>
+<li>✅ <strong>Label-based Filtering</strong> - Uses <code>data-seed</code> label for selective operations</li>
+</ul>
+<h3 id="package-improvements">Package Improvements<a class="headerlink" href="#package-improvements" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <strong>Embedded Dependencies</strong> - CapyDb.Core, Runner, and Writers are now embedded</li>
+<li>✅ <strong>No External Dependencies</strong> - Cleaner NuGet package with all DLLs included</li>
+<li>✅ <strong>Multi-target Support</strong> - Full support for .NET 8.0 and .NET 9.0</li>
+</ul>
+<h3 id="previous-features-v107">Previous Features (v1.0.7)<a class="headerlink" href="#previous-features-v107" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <strong>Enhanced file search on Windows</strong> - Fixed glob pattern issues</li>
+<li>✅ <strong>Robust recursive search</strong> - Finds liquibase.properties anywhere</li>
+<li>✅ <strong>Monorepo support</strong> - Works with complex project structures</li>
+<li>✅ <strong>Improved assembly detection</strong> - Better EF Core integration</li>
+<li>✅ <strong>Cross-platform compatibility</strong> - Tested on Windows, Linux, macOS</li>
+</ul>
+<hr />
+<p><strong>Developed with ❤️ to simplify database migration management.</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "content.code.copy", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
