@@ -21,6 +21,9 @@ CapyDb CLI addresses the challenge of managing database migrations consistently 
 - ✅ **Comprehensive diagnostics** with `cap doctor`
 - ✅ **Changelog validation** before execution
 - ✅ **INSERTs converter** - converts SQL INSERTs to Liquibase format
+- ✅ **Data seeding from CSV** - automatically generates load data changesets
+- ✅ **Intelligent type inference** - detects column types from CSV headers
+- ✅ **Data management** - update, rollback, and reset seed data independently
 
 ## 📦 Installation
 
@@ -34,7 +37,7 @@ CapyDb CLI addresses the challenge of managing database migrations consistently 
 dotnet tool install -g capydb.cli
 
 # Verify installation
-cap --version  # 1.0.7
+cap --version  # 1.2.3
 ```
 
 ## 🏁 Getting Started
@@ -191,6 +194,41 @@ cap convert-inserts --input ./data.sql --output ./changelog.yaml
 cap convert-inserts --input ./data.sql --table users --output ./changelog.yaml
 ```
 
+### Data Seeding from CSV
+```bash
+# Generate data-seed changelog from CSV
+cap carga from-csv --input db/carga/Users.csv --table Users
+
+# With author and auto-add to master changelog
+cap carga from-csv \
+  --input db/carga/Countries.csv \
+  --table TabelaAuxiliarCountries \
+  --author "Your Name" \
+  --add-to-master
+
+# Custom output location
+cap carga from-csv \
+  --input db/carga/Cities.csv \
+  --table Cities \
+  --output db/changelog/custom/cities.yaml
+
+# Automatic dependency resolution and ordering!
+# When using --add-to-master, CapyDb automatically:
+# ✅ Detects foreign keys from CSV column names (ending with "Id")
+# ✅ Resolves table dependencies
+# ✅ Orders changesets topologically (dependencies first)
+# ✅ Prevents FK constraint violations during load
+
+# Apply data seeds
+cap carga update --defaults db/changelog/liquibase.properties
+
+# Rollback data seeds
+cap carga rollback --defaults db/changelog/liquibase.properties
+
+# Check data seed status
+cap carga status --defaults db/changelog/liquibase.properties
+```
+
 ## 🧪 Tests
 
 The project includes automated integration tests using Jest and Prisma.
@@ -207,7 +245,7 @@ npm test -- --testMatch="**/migration.test.ts"
 
 ## 📚 Documentation
 
-For complete documentation, visit: [Documentation](https://docusaurus.io/docs)
+For complete documentation, visit: [Documentation](https://lor4z.github.io/capydb-docs)
 
 ## 🔧 Main Commands
 
@@ -227,6 +265,12 @@ For complete documentation, visit: [Documentation](https://docusaurus.io/docs)
 | `cap rollback count <N>` | Revert N migrations |
 | `cap rollback to-tag <tag>` | Revert to a specific tag |
 | `cap squash --tag <tag>` | Consolidate history up to a tag |
+| `cap carga from-csv` | Generate data-seed changelog from CSV |
+| `cap carga update` | Apply data seeds (label: data-seed) |
+| `cap carga drop-all` | Remove all data and reapply |
+| `cap carga reset` | Drop entire database and reapply all |
+| `cap carga rollback` | Rollback last data changeset |
+| `cap carga status` | Check data seed status |
 | `cap bye` | Farewell with ASCII art 🦫 |
 
 ## 💬 Contact
@@ -234,6 +278,7 @@ For complete documentation, visit: [Documentation](https://docusaurus.io/docs)
 - 📧 **Email**: evellynloraine@gmail.com
 - 💼 **LinkedIn**: [Evellyn Fernandes](https://www.linkedin.com/in/evellynloraine)
 - 🐱 **GitHub**: [lor4z](https://github.com/lor4z)
+- 📚 **Documentation:** [CapyDb Docs](https://lor4z.github.io/capydb-docs)
 
 ## 📄 License
 
@@ -243,10 +288,26 @@ This project is licensed under Apache 2.0.
 
 - **NuGet Package**: https://www.nuget.org/packages/capydb.cli/
 - **GitHub Repository**: https://github.com/lor4z/capybara-db
-- **Current Version**: 1.0.7
+- **Current Version**: 1.2.3
 
-## 🆕 What's New in v1.0.7
+## 🆕 What's New in v1.2.3
 
+### Data Seeding Features
+- ✅ **CSV to Changelog Generator** - `cap carga from-csv` command
+- ✅ **Intelligent Type Inference** - Automatically detects UUID, BOOLEAN, TIMESTAMP, NUMERIC, STRING
+- ✅ **Automatic Dependency Resolution** - Detects FKs from CSV headers and orders tables automatically
+- ✅ **Topological Sorting** - Smart ordering prevents FK constraint violations during data load
+- ✅ **Circular Dependency Detection** - Warns about circular references between tables
+- ✅ **Data Management Commands** - update, drop-all, reset, rollback, status for seed data
+- ✅ **Auto-add to Master** - Option to automatically include in db.changelog-master.yaml
+- ✅ **Label-based Filtering** - Uses `data-seed` label for selective operations
+
+### Package Improvements
+- ✅ **Embedded Dependencies** - CapyDb.Core, Runner, and Writers are now embedded
+- ✅ **No External Dependencies** - Cleaner NuGet package with all DLLs included
+- ✅ **Multi-target Support** - Full support for .NET 8.0 and .NET 9.0
+
+### Previous Features (v1.0.7)
 - ✅ **Enhanced file search on Windows** - Fixed glob pattern issues
 - ✅ **Robust recursive search** - Finds liquibase.properties anywhere
 - ✅ **Monorepo support** - Works with complex project structures

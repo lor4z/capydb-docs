@@ -22,7 +22,6 @@ O CapyDb CLI resolve o problema de gerenciar migrations de banco de dados de for
 - ✅ **Validação de changelog** antes da execução
 - ✅ **Conversor de INSERTs** - converte INSERTs SQL em formato Liquibase
 
-
 ## 📦 Instalação
 
 ### Pré-requisitos
@@ -208,7 +207,7 @@ npm test -- --testMatch="**/migration.test.ts"
 
 ## 📚 Documentação
 
-Para documentação completa, visite: [Documentação](https://docusaurus.io/pt-BR/docs)
+Para documentação completa, visite: [Documentação](https://lor4z.github.io/capydb-docs)
 
 ## 🔧 Comandos Principais
 
@@ -232,9 +231,10 @@ Para documentação completa, visite: [Documentação](https://docusaurus.io/pt-
 
 ## 💬 Contato
 
-- 📧 **E-mail**: lora@gmail.com
-- 💼 **LinkedIn**: [Evellyn Fernandes](https://www.linkedin.com/in/evellynloraine)
-- 🐱 **GitHub**: [lor4z](https://github.com/lor4z)
+- 📧 **Email:** [lora@gmail.com](mailto:lora@gmail.com)
+- 💼 **LinkedIn:** [Evellyn Fernandes](https://www.linkedin.com/in/evellynloraine)
+- 🐱 **GitHub:** [lor4z](https://github.com/lor4z)
+- 📚 **Documentation:** [CapyDb Docs](https://lor4z.github.io/capydb-docs)
 
 ## 📄 Licença
 
@@ -244,9 +244,9 @@ Este projeto está sob licença Apache 2.0.
 
 - **NuGet Package**: https://www.nuget.org/packages/capydb.cli/
 - **GitHub Repository**: https://github.com/lor4z/capybara-db
-- **Versão Atual**: 1.0.9
+- **Versão Atual**: 1.0.7
 
-## 🆕 Novidades na v1.0.9
+## 🆕 Novidades na v1.0.7
 
 - ✅ **Busca de arquivos aprimorada no Windows** - Corrigidos problemas com padrões glob
 - ✅ **Busca recursiva robusta** - Encontra liquibase.properties em qualquer lugar

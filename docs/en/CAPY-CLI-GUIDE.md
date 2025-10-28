@@ -183,6 +183,345 @@ cap convert-inserts --input ./data.sql --output ./db/changelog/common/seed.yaml 
 
 ---
 
+## 📊 Data Seeding (Load Data Management)
+
+### Overview
+
+CapyDb offers a complete system to manage seed data separately from schema migrations. This enables:
+
+- ✅ Independent versioning of data and schema
+- ✅ Automatic changeset generation from CSV files
+- ✅ Intelligent type inference
+- ✅ Specific data rollback without affecting schema
+- ✅ Label-based filtering (`data-seed`)
+
+### 1. Generate Changelog from CSV
+
+```bash
+# Basic syntax
+cap carga from-csv --input <file.csv> --table <table> [options]
+
+# Required options:
+#   --input, -i <path>    : Path to CSV file
+#   --table, -t <name>    : Target table name
+
+# Additional options:
+#   --output, -o <path>   : YAML output file (default: db/changelog/carga-updates/YYYYMMDD__carga-<table>.yaml)
+#   --author <name>       : Author name (default: CapyDb)
+#   --context <context>   : Changeset context (default: common)
+#   --add-to-master       : Automatically add to db.changelog-master.yaml
+```
+
+**Examples:**
+
+```bash
+# Basic generation
+cap carga from-csv --input db/carga/Users.csv --table Users
+
+# With all options
+cap carga from-csv \
+  --input db/carga/Countries.csv \
+  --table TabelaAuxiliarCountries \
+  --author "Evellyn Fernandes" \
+  --output db/changelog/carga-updates/countries.yaml \
+  --add-to-master
+
+# Short form
+cap carga from-csv -i db/carga/Cities.csv -t Cities
+
+# Batch processing multiple files
+for file in db/carga/*.csv; do
+  table=$(basename "$file" .csv)
+  cap carga from-csv -i "$file" -t "$table" --add-to-master
+done
+```
+
+**Automatic Type Inference:**
+
+The command analyzes CSV column names and infers types automatically:
+
+| Name Pattern | Inferred Type | Examples |
+|--------------|---------------|----------|
+| `*Id`, `PublicId` | UUID | `Id`, `UserId`, `PublicId` |
+| `Excluido`, `Ativo`, `Is*`, `Has*` | BOOLEAN | `Excluido`, `Ativo`, `IsActive`, `HasPermission` |
+| `Data*`, `Date*`, `*Timestamp`, `*At` | TIMESTAMP | `DataCriacao`, `DateCreated`, `CreatedAt`, `UpdatedAt` |
+| `*Num`, `*Numero`, `Count`, `Quantidade` | NUMERIC | `CodigoNum`, `Age`, `Count`, `Quantidade` |
+| Others | STRING | `Name`, `Email`, `Description` |
+
+**Automatic Dependency Resolution:**
+
+CapyDb automatically detects table dependencies and orders changesets correctly:
+
+- ✅ **Foreign Key Detection**: Columns ending with `Id` (except `Id` and `PublicId`) are considered FKs
+- ✅ **Name Resolution**: Removes prefixes like `TabelaAuxiliar` to find referenced tables
+- ✅ **Topological Sorting**: Tables without dependencies are loaded first
+- ✅ **Circular Dependency Detection**: Detects and reports circular references
+- ✅ **Intelligent Matching**: Searches tables by exact name, with prefix, plural, or partial match
+
+**Dependency Example:**
+```
+ModuloCategoria.csv has column "ModuloId"
+  ↓ CapyDb detects FK to "Modulo"
+  ↓ Automatically orders:
+    1. Modulo.csv           (no dependencies)
+    2. ModuloCategoria.csv  (depends on Modulo)
+```
+
+**CSV Example:**
+```csv
+Id,Name,Email,IsActive,CreatedAt,Age
+cc53be96-29d4-46ec-882d-042ad26f3aa5,John Doe,john@email.com,true,2024-01-01,30
+6771123b-a632-423d-9c8a-f1ec7fd4b438,Mary Smith,mary@email.com,true,2024-01-02,25
+```
+
+**Generated YAML:**
+```yaml
+databaseChangeLog:
+  - changeSet:
+      id: 20251017-carga-users
+      author: CapyDb
+      context: common
+      labels: data-seed
+      changes:
+        - loadData:
+            tableName: Users
+            file: db/carga/Users.csv
+            relativeToChangelogFile: false
+            separator: ","
+            quotchar: '"'
+            encoding: UTF-8
+            columns:
+              - column:
+                  name: Id
+                  type: UUID
+              - column:
+                  name: Name
+                  type: STRING
+              - column:
+                  name: Email
+                  type: STRING
+              - column:
+                  name: IsActive
+                  type: BOOLEAN
+              - column:
+                  name: CreatedAt
+                  type: TIMESTAMP
+              - column:
+                  name: Age
+                  type: NUMERIC
+      rollback:
+        - delete:
+            tableName: Users
+```
+
+### 2. Apply Seed Data
+
+```bash
+# Basic syntax
+cap carga update --defaults <file.properties> [options]
+
+# Options:
+#   --docker          : Use Docker
+#   --workdir <dir>   : Working directory
+#   --output <file>   : Execution log
+#   --logs            : Display detailed logs
+```
+
+**Examples:**
+
+```bash
+# Apply all changesets with 'data-seed' label
+cap carga update --defaults ./db/changelog/liquibase.properties
+
+# With detailed logs
+cap carga update --defaults ./db/changelog/liquibase.properties --logs
+
+# Using Docker
+cap carga update --defaults ./db/changelog/liquibase.properties --docker
+```
+
+### 3. Remove and Reapply Data (Development)
+
+```bash
+# Basic syntax
+cap carga drop-all --defaults <file.properties> [options]
+```
+
+**⚠️ WARNING:**
+- Removes ALL data from tables referenced in data-seed changesets
+- Useful for development and testing
+- **DO NOT use in production without backup!**
+
+### 4. Complete Reset (Schema + Data)
+
+```bash
+# Basic syntax
+cap carga reset --defaults <file.properties> [options]
+```
+
+**⚠️ DANGER:**
+- Executes `DROP ALL` on entire database
+- Recreates schema and data from scratch
+- **EXTREMELY DESTRUCTIVE**
+- Requires manual confirmation
+
+### 5. Data Rollback
+
+```bash
+# Basic syntax
+cap carga rollback --defaults <file.properties> [options]
+```
+
+**What happens:**
+1. ✅ Identifies last changeset with `data-seed` label
+2. ✅ Executes changeset's `rollback` block
+3. ✅ Removes record from `DATABASECHANGELOG` table
+4. ✅ Allows re-applying the changeset later
+
+### 6. Data Status
+
+```bash
+# View status of data changesets
+cap carga status --defaults ./db/changelog/liquibase.properties [--docker]
+```
+
+### Automatic Dependency Resolution
+
+CapyDb CLI v1.2.3+ includes an intelligent dependency resolution system that:
+
+**How It Works:**
+
+1. **Scans all changesets** in `db/changelog/carga-updates/`
+2. **Reads CSV headers** from each referenced file
+3. **Detects Foreign Keys** - columns ending with `Id` (except `Id` and `PublicId`)
+4. **Resolves table names** - removes prefixes like `TabelaAuxiliar`
+5. **Topologically sorts** - places dependencies first
+6. **Updates db.changelog-carga.yaml** with correct order
+
+**Matching Algorithm:**
+
+```
+CSV Column: "ModuloId"
+  ↓ Remove "Id" → "Modulo"
+  ↓ Search for:
+    1. Exact match: "Modulo"
+    2. With prefix: "TabelaAuxiliarModulo"
+    3. Plural: "Modulos" or "TabelaAuxiliarModulos"
+    4. Partial: ends with "Modulo"
+  ↓ Found: add dependency
+```
+
+**Practical Example:**
+
+```bash
+# You have these CSVs:
+# - Modulo.csv (no FKs)
+# - ModuloCategoria.csv (has ModuloId → FK to Modulo)
+# - FundamentacoesLegais.csv (has LeisId → FK to TabelaAuxiliarLeis)
+
+# When running:
+cap carga from-csv -i db/carga/ModuloCategoria.csv -t ModuloCategoria --add-to-master
+cap carga from-csv -i db/carga/Modulo.csv -t Modulo --add-to-master
+cap carga from-csv -i db/carga/FundamentacoesLegais.csv -t FundamentacoesLegais --add-to-master
+
+# CapyDb automatically reorders in db.changelog-carga.yaml:
+#   1. Modulo (no dependencies)
+#   2. TabelaAuxiliarLeis (no dependencies)
+#   3. ModuloCategoria (depends on Modulo)
+#   4. FundamentacoesLegais (depends on Leis)
+
+# Result: zero FK constraint errors!
+```
+
+**Special Case Handling:**
+
+- **Dependencies not found**: Yellow warning, but continues execution
+- **Circular dependencies**: Detected and reported with error
+- **Multiple FKs**: All are detected and considered
+- **Custom prefixes**: System tries multiple variations
+
+### Complete Data Seeding Workflow
+
+```bash
+# 1. Prepare CSV
+cat > db/carga/Countries.csv << EOF
+Id,Name,Code,Population,IsActive
+1,Brazil,BR,212000000,true
+2,United States,US,331000000,true
+3,Argentina,AR,45000000,true
+EOF
+
+# 2. Generate changelog
+cap carga from-csv \
+  --input db/carga/Countries.csv \
+  --table Countries \
+  --author "Evellyn Fernandes" \
+  --add-to-master
+
+# 3. Check generated file
+cat db/changelog/carga-updates/20251017__carga-countries.yaml
+
+# 4. Apply data
+cap carga update --defaults db/changelog/liquibase.properties
+
+# 5. Check status
+cap carga status --defaults db/changelog/liquibase.properties
+
+# 6. If needed, rollback
+cap carga rollback --defaults db/changelog/liquibase.properties
+```
+
+### Project Structure with Data Seeding
+
+```
+project/
+├── db/
+│   ├── changelog/
+│   │   ├── common/              # Schema migrations
+│   │   │   ├── 20250101_120000__create-tables.yaml
+│   │   │   └── 20250102_143000__add-columns.yaml
+│   │   ├── carga-updates/       # Data seed migrations
+│   │   │   ├── 20251017__carga-countries.yaml
+│   │   │   ├── 20251017__carga-cities.yaml
+│   │   │   └── 20251017__carga-users.yaml
+│   │   ├── db.changelog-master.yaml
+│   │   └── liquibase.properties
+│   ├── carga/                   # CSV source files
+│   │   ├── Countries.csv
+│   │   ├── Cities.csv
+│   │   └── Users.csv
+│   └── drivers/
+└── src/
+```
+
+### Use Cases
+
+**1. Reference Data:**
+```bash
+# Countries, states, cities
+cap carga from-csv -i db/carga/Countries.csv -t Countries --add-to-master
+cap carga from-csv -i db/carga/States.csv -t States --add-to-master
+cap carga from-csv -i db/carga/Cities.csv -t Cities --add-to-master
+cap carga update --defaults db/changelog/liquibase.properties
+```
+
+**2. System Configuration:**
+```bash
+# Settings, permissions, roles
+cap carga from-csv -i db/carga/SystemConfig.csv -t SystemConfig --add-to-master
+cap carga from-csv -i db/carga/Roles.csv -t Roles --add-to-master
+cap carga update --defaults db/changelog/liquibase.properties
+```
+
+**3. Test Data:**
+```bash
+# Development environment
+cap carga from-csv -i db/carga/TestUsers.csv -t Users --context dev
+cap carga update --defaults db/changelog/liquibase-dev.properties
+```
+
+---
+
 ## 👤 Author System
 
 Priority order:
@@ -279,3 +618,66 @@ cap apply --defaults ./db/changelog/liquibase.properties
 - Never commit credentials; use env vars
 - Periodically **squash** history
 - Use **contexts/labels** per environment
+
+---
+
+## 🆕 What's New in v1.2.3
+
+**Generated documentation for CapyDb CLI v1.2.3**
+*Last updated: 2025-10-27*
+
+### Data Seeding and Data Management
+- ✅ **`cap carga from-csv` Command** - Automatic changeset generation from CSV files
+- ✅ **Intelligent Type Inference** - Automatically detects UUID, BOOLEAN, TIMESTAMP, NUMERIC, STRING
+- ✅ **Automatic Dependency Resolution** - Detects FKs from CSV headers and automatically orders tables
+- ✅ **Topological Sorting** - Smart ordering prevents FK constraint violations during data load
+- ✅ **Circular Dependency Detection** - Warns about circular references between tables
+- ✅ **Management Commands** - update, drop-all, reset, rollback, status for seed data
+- ✅ **Label-based Filtering** - Uses `data-seed` label for specific operations
+- ✅ **Auto-add to Master** - Option to automatically include in master changelog
+
+### Package Improvements
+- ✅ **Embedded Dependencies** - CapyDb.Core, Runner, and Writers are now part of the CLI
+- ✅ **Clean NuGet Package** - No external dependencies listed
+- ✅ **Full Multi-target Support** - Complete support for .NET 8.0 and .NET 9.0
+
+### Previous Features (v1.0.7)
+- ✅ **Enhanced Recursive Search** - System now searches for `liquibase.properties` in multiple locations automatically
+- ✅ **Full Windows Support** - Fixed glob pattern issues on Windows
+- ✅ **Monorepo Support** - Works perfectly with complex structures (`apps/*/`, `src/*/`)
+- ✅ **Intelligent Assembly Detection** - Better support for EF Core in large projects
+- ✅ **Cross-platform** - Tested and validated on Windows, Linux, and macOS
+
+---
+
+## 📑 Command Summary
+
+### Migrations
+- `cap migrations add <name>` - Create new migration
+- `cap migrations import-ef` - Import from EF Core
+- `cap migrations mergeschemas` - Consolidate migrations
+
+### Database Operations
+- `cap plan` - Generate SQL plan
+- `cap apply` - Apply migrations
+- `cap status` - View status
+- `cap validate` - Validate changelog
+- `cap tag <name>` - Create tag
+- `cap remove-tag <tag>` - Remove tag
+- `cap rollback count <N>` - Revert N migrations
+- `cap rollback to-tag <tag>` - Revert to tag
+
+### Data Seeding (Load Data)
+- `cap carga from-csv` - Generate changelog from CSV
+- `cap carga update` - Apply seed data (label: data-seed)
+- `cap carga drop-all` - Remove and reapply data
+- `cap carga reset` - Complete reset (schema + data)
+- `cap carga rollback` - Rollback last data changeset
+- `cap carga status` - View seed data status
+
+### Utilities
+- `cap doctor` - Check prerequisites
+- `cap drift detect` - Detect divergences
+- `cap squash --tag <tag>` - Consolidate history
+- `cap convert-inserts` - Convert SQL INSERTs
+- `cap bye` - Farewell
